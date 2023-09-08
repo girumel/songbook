@@ -1,19 +1,14 @@
-import {Schema, model, Model} from 'mongoose';
+import {Schema, model, InferSchemaType, Model} from 'mongoose';
 
-export interface ISong {
-    title: string;
-    artist: string;
-    album: string;
-    genre: string;
-}
-
-const songSchema = new Schema<ISong>({
+const songSchema: Schema = new Schema({
     title: {type: String, required: true},
     artist: {type: String, required: true},
     album: {type: String, required: true},
     genre: {type: String, required: true}
 });
 
-const Song: Model<ISong> = model<ISong>('Song', songSchema);
+export type Song = InferSchemaType<typeof songSchema>;
 
-export default Song;
+const SongModel: Model<Song> = model<Song>('Song', songSchema);
+
+export default SongModel;
