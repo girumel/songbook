@@ -1,6 +1,8 @@
 import express from 'express'
 import dotenv from 'dotenv'
 import { connect } from 'mongoose'
+import bodyParser from 'body-parser'
+import songs from './routes/songs'
 
 dotenv.config();
 
@@ -20,6 +22,10 @@ dbConnect().catch(err => console.log(err))
 
 const app: express.Application = express()
 const port: number = parseInt(EXPRESS_PORT as string) || 3000
+
+app.use(bodyParser.json())
+
+app.use('/songs', songs)
 
 app.listen(port, () => {
   console.log(`Listening on port ${port}`)
