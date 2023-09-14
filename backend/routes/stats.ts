@@ -61,4 +61,20 @@ stats.get('/songs-by-album/:album', async (req: Request, res: Response) => {
     }
 })
 
+stats.get('/albums-by-artist/:artist', async (req: Request, res: Response) => {
+    try {
+        const songs: Song[] = await SongModel.find()
+        const albumsByArtist = new Set()
+        songs.forEach(song => {
+            if (song.artist === req.params.artist) {
+                albumsByArtist.add(song.album)
+            }
+        })
+        res.status(200).json(albumsByArtist.size)
+    }
+    catch (err) {
+        res.status(400).json(err)
+    }
+})
+
 export default stats
